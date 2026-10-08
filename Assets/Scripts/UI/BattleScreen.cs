@@ -265,21 +265,21 @@ namespace CardGame.UI
             }
             var e2 = el2;
 
-            el.AddToClassList("role--" + u.Role.ToString().ToLowerInvariant());
-            el.AddToClassList(u.Team == Team.Player ? "unit--player" : "unit--enemy");
+            e2.AddToClassList("role--" + u.Role.ToString().ToLowerInvariant());
+            e2.AddToClassList(u.Team == Team.Player ? "unit--player" : "unit--enemy");
 
-            var g = el.Q<Label>("unit-glyph");
-            var nm = el.Q<Label>("unit-name");
+            var g = e2.Q<Label>("unit-glyph");
+            var nm = e2.Q<Label>("unit-name");
             if (g != null) g.text = u.Glyph;
             if (nm != null) nm.text = u.Name;
 
-            Bind(el.Q<Label>("unit-hp"), u, "HpText");
-            Bind(el.Q<Label>("unit-block"), u, "BlockText");
-            Bind(el.Q<Label>("unit-taunt"), u, "TauntText");
-            Bind(el.Q<Label>("unit-intent"), u, "IntentText");
-            BindWidth(el.Q("unit-hp-fill"), u, "HpWidth");
+            Bind(e2.Q<Label>("unit-hp"), u, "HpText");
+            Bind(e2.Q<Label>("unit-block"), u, "BlockText");
+            Bind(e2.Q<Label>("unit-taunt"), u, "TauntText");
+            Bind(e2.Q<Label>("unit-intent"), u, "IntentText");
+            BindWidth(e2.Q("unit-hp-fill"), u, "HpWidth");
 
-            var spriteEl = el.Q("unit-sprite");
+            var spriteEl = e2.Q("unit-sprite");
             UnitVisual visual = null;
             if (u.Role == Role.Swordsman && spriteEl != null)
             {
