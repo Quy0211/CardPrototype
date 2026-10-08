@@ -962,13 +962,13 @@ namespace CardGame.UI
                 return;
             }
 
-            if (plan.Actor.Role == Role.Guard || plan.Actor.Role == Role.Boss)
+            if (plan.Actor.Role == Role.Guard || plan.Actor.Role == Role.Boss || plan.Actor.Role == Role.Swordsman)
             {
-                // quái cận chiến lao tới tướng
                 DashToEnemy(actorView, targetView.Root.worldBound.center, 400,
                     () => ApplyEnemyAction(plan, targetView), 780);
                 Root.schedule.Execute(next).StartingIn(1350);
-            } else if (plan.Actor.Role == Role.Sniper)
+            }
+            else if (plan.Actor.Role == Role.Sniper || plan.Actor.Role == Role.Archer)
             {
                 BringToFront(actorView.Root);
                 actorView.Visual?.PlaySlash(app, () =>
@@ -980,10 +980,13 @@ namespace CardGame.UI
             }
             else
             {
-                // fallback
-                DashTo(actorView, targetView.Root.worldBound.center, true, 400,
-                    () => ApplyEnemyAction(plan, targetView), 780);
-                Root.schedule.Execute(next).StartingIn(1350);
+                BringToFront(actorView.Root);
+                actorView.Visual?.PlaySlash(app, () =>
+                {
+                    ArrowShot(actorView, targetView.Root.worldBound.center, true,
+                        () => { ApplyEnemyAction(plan, targetView); SendToBackIfNeeded(actorView.Root, actorView.Model.Team); });
+                });
+                Root.schedule.Execute(next).StartingIn(1100);
             }
         }
 
@@ -1070,9 +1073,9 @@ namespace CardGame.UI
             // đặt mục tiêu gần quái (trước mặt, lệch -80px theo trục X phụ thuộc phe)
             var target = toWorld;
             if (actor.Model.Team == Team.Player)
-                target = new Vector2(toWorld.x - 90f, toWorld.y);
+                target = new Vector2(toWorld.x - 140f, toWorld.y);
             else
-                target = new Vector2(toWorld.x + 90f, toWorld.y);
+                target = new Vector2(toWorld.x + 140f, toWorld.y);
             var delta = target - from;
 
             // dịch chuyển chính sprite element
@@ -1229,14 +1232,16 @@ namespace CardGame.UI
         void BringToFront(VisualElement el)
         {
             if (el == null || el.parent == null) return;
-            el.parent.BringToFront(); // ensure parent row doesn't block
+            var p = el.parent;
+            while (p != battlefield && p.parent != null) p = p.parent;
+            p?.BringToFront();
+            el.BringToFront();
             el.BringToFront();
         }
 
         void SendToBackIfNeeded(VisualElement el, Team team)
         {
             if (el == null || el.parent == null) return;
-            // giữ người chơi luôn nổi hơn chút nếu muốn; nhưng về vị trí tự nhiên
             el.SendToBack();
         }
 
@@ -1254,7 +1259,7 @@ namespace CardGame.UI
             BringToFront(actor.Root);
 
             var from = savedEnemyFrom;
-            var target = new Vector2(toWorld.x + 90f, toWorld.y);
+            var target = new Vector2(toWorld.x + 140f, toWorld.y);
             var delta = target - from;
 
             actor.Root.style.translate = new Translate(new Length(delta.x, LengthUnit.Pixel), new Length(delta.y, LengthUnit.Pixel));
