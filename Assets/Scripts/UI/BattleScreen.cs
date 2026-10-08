@@ -943,6 +943,8 @@ namespace CardGame.UI
                 new Length(delta.x, LengthUnit.Pixel),
                 new Length(delta.y, LengthUnit.Pixel));
             actor.Root.style.transitionDuration = new StyleList<TimeValue>(new System.Collections.Generic.List<TimeValue>{new TimeValue(0.3f)});
+            BringToFront(actor.Root);
+            BringToFront(actor.Root);
 
             actor.Root.schedule.Execute(() => onHit?.Invoke()).StartingIn(hitMs);
         }
@@ -1087,6 +1089,19 @@ namespace CardGame.UI
             while (battleLog.childCount > 9) battleLog.RemoveAt(0);
         }
 
+        void BringToFront(VisualElement el)
+        {
+            if (el == null || el.parent == null) return;
+            el.BringToFront();
+        }
+
+        void SendToBackIfNeeded(VisualElement el, Team team)
+        {
+            if (el == null || el.parent == null) return;
+            // giữ người chơi luôn nổi hơn chút nếu muốn; nhưng về vị trí tự nhiên
+            el.SendToBack();
+        }
+
         void DashBack(UnitView actor, Vector2 toWorld, int durationMs)
         {
             if (battlefield == null || actor == null) return;
@@ -1099,12 +1114,14 @@ namespace CardGame.UI
                 new Length(delta.x, LengthUnit.Pixel),
                 new Length(delta.y, LengthUnit.Pixel));
             actor.Root.style.transitionDuration = new StyleList<TimeValue>(new System.Collections.Generic.List<TimeValue>{new TimeValue(durationMs/1000f)});
+            BringToFront(actor.Root);
 
             actor.Root.schedule.Execute(() =>
             {
                 actor.Visual?.PlayIdle(app);
                 actor.Root.style.translate = new StyleTranslate(StyleKeyword.Null);
                 actor.Root.style.transitionDuration = StyleKeyword.Null;
+                SendToBackIfNeeded(actor.Root, actor.Model.Team);
             }).StartingIn(durationMs);
         }
 
