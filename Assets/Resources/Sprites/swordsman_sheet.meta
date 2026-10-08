@@ -1,0 +1,129 @@
+{
+  "fileFormatVersion": 2,
+  "guid": "d8f2e9a746cb64e9fa5b69f94f2b9a83",
+  "TextureImporter": {
+    "internalIDToNameTable": [],
+    "spriteMode": 2,
+    "defaultPivot": {
+      "x": 0.5,
+      "y": 0.5
+    },
+    "spritePixelsToUnits": 100,
+    "spriteBorder": {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 0
+    },
+    "mipMaps": {
+      "enableMipMap": false
+    },
+    "isReadable": false,
+    "wrapMode": 1,
+    "filterMode": 0,
+    "alphaIsTransparency": true,
+    "textureType": 1,
+    "compressionQuality": 0,
+    "spriteSheet": {
+      "sprites": [
+        {
+          "name": "swordsman_f1",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 256,
+            "height": 256
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "border": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 0
+          }
+        },
+        {
+          "name": "swordsman_f2",
+          "rect": {
+            "x": 256,
+            "y": 0,
+            "width": 256,
+            "height": 256
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "border": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 0
+          }
+        },
+        {
+          "name": "swordsman_f3",
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 256,
+            "height": 256
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "border": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 0
+          }
+        },
+        {
+          "name": "swordsman_f4",
+          "rect": {
+            "x": 768,
+            "y": 0,
+            "width": 256,
+            "height": 256
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "border": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 0
+          }
+        },
+        {
+          "name": "swordsman_f5",
+          "rect": {
+            "x": 1024,
+            "y": 0,
+            "width": 256,
+            "height": 256
+          },
+          "pivot": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "border": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 0
+          }
+        }
+      ],
+      "serializedVersion": 2
+    },
+    "maxTextureSize": 2048
+  }
+}
