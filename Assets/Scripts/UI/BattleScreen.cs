@@ -925,29 +925,15 @@ namespace CardGame.UI
             savedSwordsmanFrom = actor.Root.worldBound.center;
             actor.Visual?.PlayRun(app);
 
-            var ghost = new VisualElement();
-            ghost.AddToClassList("dash-ghost");
-            if (foe) ghost.AddToClassList("dash-ghost--foe");
-            var label = new Label(actor.Model.Glyph);
-            label.AddToClassList("dash-ghost-label");
-            label.AddToClassList("text-semibold");
-            ghost.Add(label);
-            ghost.style.opacity = 0f;
-
             var from = savedSwordsmanFrom;
-            var start = LocalPoint(from);
-            ghost.style.left = new StyleLength(new Length(start.x - 48, LengthUnit.Pixel));
-            ghost.style.top = new StyleLength(new Length(start.y - 48, LengthUnit.Pixel));
-            battlefield.Add(ghost);
-            app.ApplySemiBold(ghost);
-
             var delta = toWorld - from;
-            ghost.schedule.Execute(() => ghost.style.translate = new Translate(
-                new Length(delta.x, LengthUnit.Pixel),
-                new Length(delta.y, LengthUnit.Pixel))).StartingIn(30);
 
-            ghost.schedule.Execute(() => onHit?.Invoke()).StartingIn(hitMs);
-            ghost.schedule.Execute(() => ghost.RemoveFromHierarchy()).StartingIn(removeMs);
+            // dịch chuyển chính sprite element
+            actor.Root.style.translate = new Translate(
+                new Length(delta.x, LengthUnit.Pixel),
+                new Length(delta.y, LengthUnit.Pixel));
+
+            actor.Root.schedule.Execute(() => onHit?.Invoke()).StartingIn(hitMs);
         }
 
         void DashTo(UnitView actor, Vector2 toWorld, bool foe, int hitMs, Action onHit, int removeMs)
@@ -1095,26 +1081,18 @@ namespace CardGame.UI
             if (battlefield == null || actor == null) return;
             actor.Visual?.PlayRun(app);
 
-            var ghost = new VisualElement();
-            ghost.AddToClassList("dash-ghost");
-            var label = new Label(actor.Model.Glyph);
-            label.AddToClassList("dash-ghost-label");
-            label.AddToClassList("text-semibold");
-            ghost.Add(label);
-            ghost.style.opacity = 0f;
-
             var from = actor.Root.worldBound.center;
-            var start = LocalPoint(from);
-            ghost.style.left = new StyleLength(new Length(start.x - 48, LengthUnit.Pixel));
-            ghost.style.top = new StyleLength(new Length(start.y - 48, LengthUnit.Pixel));
-            battlefield.Add(ghost);
-            app.ApplySemiBold(ghost);
-
             var delta = toWorld - from;
-            ghost.schedule.Execute(() => ghost.style.translate = new Translate(
+
+            actor.Root.style.translate = new Translate(
                 new Length(delta.x, LengthUnit.Pixel),
-                new Length(delta.y, LengthUnit.Pixel))).StartingIn(30);
-            ghost.schedule.Execute(() => { actor.Visual?.PlayIdle(app); ghost.RemoveFromHierarchy(); }).StartingIn(durationMs);
+                new Length(delta.y, LengthUnit.Pixel));
+
+            actor.Root.schedule.Execute(() =>
+            {
+                actor.Visual?.PlayIdle(app);
+                actor.Root.style.translate = new StyleTranslate(StyleKeyword.Null);
+            }).StartingIn(durationMs);
         }
 
         // ------------------------------------------------------------------
