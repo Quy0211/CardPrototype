@@ -775,7 +775,7 @@ namespace CardGame.UI
                             {
                                 ApplyPlayerPlay(play, targetView);
                                 SlashAt(targetView);
-                                DashBack(actorView, savedSwordsmanFrom, 420);
+                                DashBackEnemy(actorView, savedSwordsmanFrom, 420);
                             });
                         }, 700);
                 }
@@ -965,16 +965,25 @@ namespace CardGame.UI
             if (plan.Actor.Role == Role.Guard || plan.Actor.Role == Role.Boss)
             {
                 // quái cận chiến lao tới tướng
-                DashTo(actorView, targetView.Root.worldBound.center, true, 400,
+                DashToEnemy(actorView, targetView.Root.worldBound.center, 400,
                     () => ApplyEnemyAction(plan, targetView), 780);
                 Root.schedule.Execute(next).StartingIn(1350);
+            } else if (plan.Actor.Role == Role.Sniper)
+            {
+                BringToFront(actorView.Root);
+                actorView.Visual?.PlaySlash(app, () =>
+                {
+                    ArrowShot(actorView, targetView.Root.worldBound.center, true,
+                        () => { ApplyEnemyAction(plan, targetView); SendToBackIfNeeded(actorView.Root, actorView.Model.Team); });
+                });
+                Root.schedule.Execute(next).StartingIn(1100);
             }
             else
             {
-                // quái bắn xa
-                ArrowShot(actorView, targetView.Root.worldBound.center, true,
-                    () => ApplyEnemyAction(plan, targetView));
-                Root.schedule.Execute(next).StartingIn(1100);
+                // fallback
+                DashTo(actorView, targetView.Root.worldBound.center, true, 400,
+                    () => ApplyEnemyAction(plan, targetView), 780);
+                Root.schedule.Execute(next).StartingIn(1350);
             }
         }
 
@@ -1058,12 +1067,12 @@ namespace CardGame.UI
             actor.Visual?.PlayRun(app);
 
             var from = savedSwordsmanFrom;
-            // đặt mục tiêu gần quái (trước mặt, lệch -40px theo trục X phụ thuộc phe)
+            // đặt mục tiêu gần quái (trước mặt, lệch -80px theo trục X phụ thuộc phe)
             var target = toWorld;
             if (actor.Model.Team == Team.Player)
-                target = new Vector2(toWorld.x - 40f, toWorld.y);
+                target = new Vector2(toWorld.x - 90f, toWorld.y);
             else
-                target = new Vector2(toWorld.x + 40f, toWorld.y);
+                target = new Vector2(toWorld.x + 90f, toWorld.y);
             var delta = target - from;
 
             // dịch chuyển chính sprite element
@@ -1220,6 +1229,7 @@ namespace CardGame.UI
         void BringToFront(VisualElement el)
         {
             if (el == null || el.parent == null) return;
+            el.parent.BringToFront(); // ensure parent row doesn't block
             el.BringToFront();
         }
 
@@ -1230,7 +1240,30 @@ namespace CardGame.UI
             el.SendToBack();
         }
 
-        void DashBack(UnitView actor, Vector2 toWorld, int durationMs)
+        Vector2 savedEnemyFrom;
+
+        void DashToEnemy(UnitView actor, Vector2 toWorld, int hitMs, Action onHit, int removeMs)
+        {
+            if (battlefield == null || actor == null)
+            {
+                onHit?.Invoke();
+                return;
+            }
+            savedEnemyFrom = actor.Root.worldBound.center;
+            actor.Visual?.PlayRun(app);
+            BringToFront(actor.Root);
+
+            var from = savedEnemyFrom;
+            var target = new Vector2(toWorld.x + 90f, toWorld.y);
+            var delta = target - from;
+
+            actor.Root.style.translate = new Translate(new Length(delta.x, LengthUnit.Pixel), new Length(delta.y, LengthUnit.Pixel));
+            actor.Root.style.transitionDuration = new StyleList<TimeValue>(new System.Collections.Generic.List<TimeValue>{new TimeValue(0.3f)});
+
+            actor.Root.schedule.Execute(() => { actor.Visual?.PlaySlash(app, () => { onHit?.Invoke(); DashBackEnemy(actor, savedEnemyFrom, 380); }); }).StartingIn(hitMs);
+        }
+
+        void DashBackEnemy(UnitView actor, Vector2 toWorld, int durationMs)
         {
             if (battlefield == null || actor == null) return;
             actor.Visual?.PlayRun(app);
@@ -1241,7 +1274,7 @@ namespace CardGame.UI
             actor.Root.style.translate = new Translate(
                 new Length(delta.x, LengthUnit.Pixel),
                 new Length(delta.y, LengthUnit.Pixel));
-            actor.Root.style.transitionDuration = new StyleList<TimeValue>(new System.Collections.Generic.List<TimeValue>{new TimeValue(durationMs/1000f)});
+            actor.Root.style.transitionDuration = new StyleList<TimeValue>(new System.Collections.Generic.List<TimeValue>{new TimeValue(durationMs / 1000f)});
             BringToFront(actor.Root);
 
             actor.Root.schedule.Execute(() =>
