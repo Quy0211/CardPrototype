@@ -270,7 +270,11 @@ namespace CardGame.UI
 
             var g = e2.Q<Label>("unit-glyph");
             var nm = e2.Q<Label>("unit-name");
-            if (g != null) g.text = u.Glyph;
+            if (g != null)
+            {
+                g.text = u.Glyph;
+                g.style.display = DisplayStyle.None;
+            }
             if (nm != null) nm.text = u.Name;
 
             Bind(e2.Q<Label>("unit-hp"), u, "HpText");
