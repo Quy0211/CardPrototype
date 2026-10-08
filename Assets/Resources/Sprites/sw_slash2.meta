@@ -1,2 +1,18 @@
 fileFormatVersion: 2
-guid: 0b0c501738cdde7453de7ac17aeb548b
+guid: 778ae9876fbf3589f5f62f602daa01fa
+TextureImporter:
+  spriteMode: 1
+  filterMode: 0
+  alphaIsTransparency: 1
+  textureType: 8
+  spriteSheet:
+    sprites:
+    - name: sw_slash2
+      rect:
+        x: 1280
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x:0.5,y:0.5}
+      border: {x:0,y:0,z:0,w:0}

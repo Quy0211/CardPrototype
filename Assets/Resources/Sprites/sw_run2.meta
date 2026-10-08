@@ -1,2 +1,18 @@
 fileFormatVersion: 2
-guid: f8e6c045439bfcdbc92d70d195ba2c8d
+guid: 5cc4158b5a12ad3d7e64ad16a99ccaf8
+TextureImporter:
+  spriteMode: 1
+  filterMode: 0
+  alphaIsTransparency: 1
+  textureType: 8
+  spriteSheet:
+    sprites:
+    - name: sw_run2
+      rect:
+        x: 768
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x:0.5,y:0.5}
+      border: {x:0,y:0,z:0,w:0}

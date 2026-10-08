@@ -1,2 +1,18 @@
 fileFormatVersion: 2
-guid: d338629aec691e213f7f628b76cebaca
+guid: 41f710703bafb8dfc0957e87006769c6
+TextureImporter:
+  spriteMode: 1
+  filterMode: 0
+  alphaIsTransparency: 1
+  textureType: 8
+  spriteSheet:
+    sprites:
+    - name: sw_idle2
+      rect:
+        x: 256
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x:0.5,y:0.5}
+      border: {x:0,y:0,z:0,w:0}
