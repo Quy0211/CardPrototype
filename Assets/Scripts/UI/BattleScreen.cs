@@ -930,7 +930,13 @@ namespace CardGame.UI
             actor.Visual?.PlayRun(app);
 
             var from = savedSwordsmanFrom;
-            var delta = toWorld - from;
+            // đặt mục tiêu gần quái (trước mặt, lệch -40px theo trục X phụ thuộc phe)
+            var target = toWorld;
+            if (actor.Model.Team == Team.Player)
+                target = new Vector2(toWorld.x - 40f, toWorld.y);
+            else
+                target = new Vector2(toWorld.x + 40f, toWorld.y);
+            var delta = target - from;
 
             // dịch chuyển chính sprite element
             actor.Root.style.translate = new Translate(
