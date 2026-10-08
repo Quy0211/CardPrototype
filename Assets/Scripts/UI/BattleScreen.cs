@@ -304,6 +304,29 @@ namespace CardGame.UI
                     }
                     visual = new UnitVisual(spriteEl, new[]{id1,id2}, new[]{r1,r2}, new[]{s1,s2,s3});
                     e2.AddToClassList("unit--sprite");
+                    if (g != null) g.style.display = DisplayStyle.None;
+                }
+            }
+            else if (u.Role == Role.Archer && spriteEl != null)
+            {
+                var subs = Resources.LoadAll<Sprite>("Sprites/archer_anim_sheet");
+                if (subs != null && subs.Length > 0)
+                {
+                    Sprite id1=null,id2=null,r1=null,r2=null,a1=null,a2=null,a3=null;
+                    for (int i = 0; i < subs.Length; i++)
+                    {
+                        var sn = subs[i].name;
+                        if (sn.EndsWith("idle1")) id1=subs[i];
+                        if (sn.EndsWith("idle2")) id2=subs[i];
+                        if (sn.EndsWith("run1")) r1=subs[i];
+                        if (sn.EndsWith("run2")) r2=subs[i];
+                        if (sn.EndsWith("attack1")) a1=subs[i];
+                        if (sn.EndsWith("attack2")) a2=subs[i];
+                        if (sn.EndsWith("attack3")) a3=subs[i];
+                    }
+                    visual = new UnitVisual(spriteEl, new[]{id1,id2}, new[]{r1,r2}, new[]{a1,a2,a3});
+                    e2.AddToClassList("unit--sprite");
+                    if (g != null) g.style.display = DisplayStyle.None;
                 }
             }
 
