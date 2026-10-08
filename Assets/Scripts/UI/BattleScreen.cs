@@ -932,7 +932,7 @@ namespace CardGame.UI
             actor.Root.style.translate = new Translate(
                 new Length(delta.x, LengthUnit.Pixel),
                 new Length(delta.y, LengthUnit.Pixel));
-            actor.Root.style.transitionDuration = new StyleList<TimeValue>(new TimeValue(0.3f));
+            actor.Root.style.transitionDuration = new StyleList<TimeValue>(new System.Collections.Generic.List<TimeValue>{new TimeValue(0.3f)});
 
             actor.Root.schedule.Execute(() => onHit?.Invoke()).StartingIn(hitMs);
         }
@@ -1088,7 +1088,7 @@ namespace CardGame.UI
             actor.Root.style.translate = new Translate(
                 new Length(delta.x, LengthUnit.Pixel),
                 new Length(delta.y, LengthUnit.Pixel));
-            actor.Root.style.transitionDuration = new StyleList<TimeValue>(new TimeValue(durationMs / 1000f));
+            actor.Root.style.transitionDuration = new StyleList<TimeValue>(new System.Collections.Generic.List<TimeValue>{new TimeValue(durationMs/1000f)});
 
             actor.Root.schedule.Execute(() =>
             {
