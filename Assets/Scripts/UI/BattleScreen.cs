@@ -283,29 +283,23 @@ namespace CardGame.UI
             UnitVisual visual = null;
             if (u.Role == Role.Swordsman && spriteEl != null)
             {
-                var subs = Resources.LoadAll<Sprite>("Sprites/swordsman_sheet");
+                var subs = Resources.LoadAll<Sprite>("Sprites/swordsman_anim_sheet");
                 if (subs != null && subs.Length > 0)
                 {
-                    Sprite f1=null,f2=null,f3=null,f4=null,f5=null;
+                    Sprite id1=null,id2=null,r1=null,r2=null,s1=null,s2=null,s3=null;
                     for (int i = 0; i < subs.Length; i++)
                     {
                         var sn = subs[i].name;
-                        if (sn.EndsWith("f1")) f1 = subs[i];
-                        if (sn.EndsWith("f2")) f2 = subs[i];
-                        if (sn.EndsWith("f3")) f3 = subs[i];
-                        if (sn.EndsWith("f4")) f4 = subs[i];
-                        if (sn.EndsWith("f5")) f5 = subs[i];
+                        if (sn.EndsWith("idle1")) id1=subs[i];
+                        if (sn.EndsWith("idle2")) id2=subs[i];
+                        if (sn.EndsWith("run1")) r1=subs[i];
+                        if (sn.EndsWith("run2")) r2=subs[i];
+                        if (sn.EndsWith("slash1")) s1=subs[i];
+                        if (sn.EndsWith("slash2")) s2=subs[i];
+                        if (sn.EndsWith("slash3")) s3=subs[i];
                     }
-                    if (f1 == null && subs.Length>=1) f1=subs[0];
-                    if (f2 == null && subs.Length>=2) f2=subs[1];
-                    if (f3 == null && subs.Length>=3) f3=subs[2];
-                    if (f4 == null && subs.Length>=4) f4=subs[3];
-                    if (f5 == null && subs.Length>=5) f5=subs[4];
-                    if (f1 != null)
-                    {
-                        visual = new UnitVisual(spriteEl, new[]{f1,f2}, new[]{f3,f4,f5});
-                        e2.AddToClassList("unit--sprite");
-                    }
+                    visual = new UnitVisual(spriteEl, new[]{id1,id2}, new[]{r1,r2}, new[]{s1,s2,s3});
+                    e2.AddToClassList("unit--sprite");
                 }
             }
 
@@ -929,6 +923,7 @@ namespace CardGame.UI
             }
 
             savedSwordsmanFrom = actor.Root.worldBound.center;
+            actor.Visual?.PlayRun(app);
 
             var ghost = new VisualElement();
             ghost.AddToClassList("dash-ghost");
@@ -937,6 +932,7 @@ namespace CardGame.UI
             label.AddToClassList("dash-ghost-label");
             label.AddToClassList("text-semibold");
             ghost.Add(label);
+            ghost.style.opacity = 0f;
 
             var from = savedSwordsmanFrom;
             var start = LocalPoint(from);
@@ -1097,12 +1093,15 @@ namespace CardGame.UI
         void DashBack(UnitView actor, Vector2 toWorld, int durationMs)
         {
             if (battlefield == null || actor == null) return;
+            actor.Visual?.PlayRun(app);
+
             var ghost = new VisualElement();
             ghost.AddToClassList("dash-ghost");
             var label = new Label(actor.Model.Glyph);
             label.AddToClassList("dash-ghost-label");
             label.AddToClassList("text-semibold");
             ghost.Add(label);
+            ghost.style.opacity = 0f;
 
             var from = actor.Root.worldBound.center;
             var start = LocalPoint(from);
@@ -1115,7 +1114,7 @@ namespace CardGame.UI
             ghost.schedule.Execute(() => ghost.style.translate = new Translate(
                 new Length(delta.x, LengthUnit.Pixel),
                 new Length(delta.y, LengthUnit.Pixel))).StartingIn(30);
-            ghost.schedule.Execute(() => ghost.RemoveFromHierarchy()).StartingIn(durationMs);
+            ghost.schedule.Execute(() => { actor.Visual?.PlayIdle(app); ghost.RemoveFromHierarchy(); }).StartingIn(durationMs);
         }
 
         // ------------------------------------------------------------------

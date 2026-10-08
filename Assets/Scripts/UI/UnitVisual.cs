@@ -9,13 +9,15 @@ namespace CardGame.UI
     {
         public VisualElement SpriteEl { get; }
         Sprite[] framesIdle;
+        Sprite[] framesRun;
         Sprite[] framesSlash;
         Coroutine co;
 
-        public UnitVisual(VisualElement spriteEl, Sprite[] idle, Sprite[] slash)
+        public UnitVisual(VisualElement spriteEl, Sprite[] idle, Sprite[] run, Sprite[] slash)
         {
             SpriteEl = spriteEl;
             framesIdle = idle;
+            framesRun = run;
             framesSlash = slash;
         }
 
@@ -25,7 +27,13 @@ namespace CardGame.UI
             co = host.StartCoroutine(Loop(framesIdle, 0.22f));
         }
 
-        public void PlaySlash(MonoBehaviour host, System.Action onComplete = null, float fps = 0.12f)
+        public void PlayRun(MonoBehaviour host, float fps = 0.12f)
+        {
+            Stop(host);
+            co = host.StartCoroutine(Loop(framesRun, fps));
+        }
+
+        public void PlaySlash(MonoBehaviour host, System.Action onComplete = null, float fps = 0.09f)
         {
             Stop(host);
             co = host.StartCoroutine(Once(framesSlash, fps, () =>
