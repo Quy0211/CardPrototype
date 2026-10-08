@@ -713,7 +713,7 @@ namespace CardGame.UI
                             });
                         }, 700);
                 }
-                else
+                else if (play.Card.Owner == Role.Archer)
                 {
                     // Cung thủ bắn từ xa
                     BringToFront(actorView.Root);
@@ -725,6 +725,15 @@ namespace CardGame.UI
                                 ApplyPlayerPlay(play, targetView);
                                 SendToBackIfNeeded(actorView.Root, actorView.Model.Team);
                             });
+                    });
+                }
+                else if (play.Card.Owner == Role.Tank)
+                {
+                    BringToFront(actorView.Root);
+                    actorView.Visual?.PlaySlash(app, () =>
+                    {
+                        ApplyPlayerPlay(play, targetView);
+                        SendToBackIfNeeded(actorView.Root, actorView.Model.Team);
                     });
                 }
             }
