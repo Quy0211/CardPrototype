@@ -659,12 +659,15 @@ namespace CardGame.UI
                 if (play.Card.Owner == Role.Swordsman)
                 {
                     // Kiếm sĩ lao tới chém
-                    DashTo(actorView, targetView.Root.worldBound.center, false, 380,
+                    DashToSwordsman(actorView, targetView.Root.worldBound.center, false, 380,
                         () =>
                         {
-                            ApplyPlayerPlay(play, targetView);
-                            SlashAt(targetView);
-                            actorView.Visual?.PlaySlash(app);
+                            actorView.Visual?.PlaySlash(app, () =>
+                            {
+                                ApplyPlayerPlay(play, targetView);
+                                SlashAt(targetView);
+                                DashBack(actorView, savedSwordsmanFrom, 420);
+                            });
                         }, 700);
                 }
                 else
@@ -915,7 +918,42 @@ namespace CardGame.UI
             return new Vector2(world.x - fb.x, world.y - fb.y);
         }
 
-        /// <summary>Bóng ma cùng màu tướng (hoặc màu địch) lao từ đơn vị tới điểm đích.</summary>
+        Vector2 savedSwordsmanFrom;
+
+        void DashToSwordsman(UnitView actor, Vector2 toWorld, bool foe, int hitMs, Action onHit, int removeMs)
+        {
+            if (battlefield == null || actor == null)
+            {
+                onHit?.Invoke();
+                return;
+            }
+
+            savedSwordsmanFrom = actor.Root.worldBound.center;
+
+            var ghost = new VisualElement();
+            ghost.AddToClassList("dash-ghost");
+            if (foe) ghost.AddToClassList("dash-ghost--foe");
+            var label = new Label(actor.Model.Glyph);
+            label.AddToClassList("dash-ghost-label");
+            label.AddToClassList("text-semibold");
+            ghost.Add(label);
+
+            var from = savedSwordsmanFrom;
+            var start = LocalPoint(from);
+            ghost.style.left = new StyleLength(new Length(start.x - 48, LengthUnit.Pixel));
+            ghost.style.top = new StyleLength(new Length(start.y - 48, LengthUnit.Pixel));
+            battlefield.Add(ghost);
+            app.ApplySemiBold(ghost);
+
+            var delta = toWorld - from;
+            ghost.schedule.Execute(() => ghost.style.translate = new Translate(
+                new Length(delta.x, LengthUnit.Pixel),
+                new Length(delta.y, LengthUnit.Pixel))).StartingIn(30);
+
+            ghost.schedule.Execute(() => onHit?.Invoke()).StartingIn(hitMs);
+            ghost.schedule.Execute(() => ghost.RemoveFromHierarchy()).StartingIn(removeMs);
+        }
+
         void DashTo(UnitView actor, Vector2 toWorld, bool foe, int hitMs, Action onHit, int removeMs)
         {
             if (battlefield == null || actor == null)
@@ -1054,6 +1092,30 @@ namespace CardGame.UI
             line.AddToClassList("log-line");
             battleLog.Add(line);
             while (battleLog.childCount > 9) battleLog.RemoveAt(0);
+        }
+
+        void DashBack(UnitView actor, Vector2 toWorld, int durationMs)
+        {
+            if (battlefield == null || actor == null) return;
+            var ghost = new VisualElement();
+            ghost.AddToClassList("dash-ghost");
+            var label = new Label(actor.Model.Glyph);
+            label.AddToClassList("dash-ghost-label");
+            label.AddToClassList("text-semibold");
+            ghost.Add(label);
+
+            var from = actor.Root.worldBound.center;
+            var start = LocalPoint(from);
+            ghost.style.left = new StyleLength(new Length(start.x - 48, LengthUnit.Pixel));
+            ghost.style.top = new StyleLength(new Length(start.y - 48, LengthUnit.Pixel));
+            battlefield.Add(ghost);
+            app.ApplySemiBold(ghost);
+
+            var delta = toWorld - from;
+            ghost.schedule.Execute(() => ghost.style.translate = new Translate(
+                new Length(delta.x, LengthUnit.Pixel),
+                new Length(delta.y, LengthUnit.Pixel))).StartingIn(30);
+            ghost.schedule.Execute(() => ghost.RemoveFromHierarchy()).StartingIn(durationMs);
         }
 
         // ------------------------------------------------------------------
