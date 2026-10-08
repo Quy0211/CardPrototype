@@ -57,8 +57,13 @@ namespace CardGame.UI
         CardDef draggedCard;
         Vector2 dragStartPointer;
         int dragPointerId = -1;
+        bool dragMoved; // đã di chuyển quá ngưỡng → tính là kéo, không phải bấm chọn
         UnitView hoverView;
         VisualElement hoverZone;
+
+        // ---- cơ chế 2: bấm chọn thẻ rồi bấm mục tiêu ----
+        VisualElement selectedEl;
+        CardDef selectedCard;
 
         public BattleScreen(App app, VisualElement root, VisualTreeAsset cardAsset, VisualTreeAsset unitAsset)
         {
@@ -92,6 +97,12 @@ namespace CardGame.UI
 
             overlay.style.display = DisplayStyle.None;
             overlay.pickingMode = PickingMode.Ignore;
+
+            // bấm nền sân đấu (không trúng thẻ/unit) → bỏ chọn thẻ đang chọn
+            battlefield?.RegisterCallback<ClickEvent>(evt =>
+            {
+                if (selectedCard != null) ClearSelection();
+            });
         }
 
         // ------------------------------------------------------------------
@@ -190,6 +201,17 @@ namespace CardGame.UI
                 enemyViews.Add(v);
                 teamEnemyRow.Add(v.Container);
             }
+
+            // bấm trực tiếp lên đơn vị = chơi lá đang chọn (cơ chế chọn-thẻ-rồi-chọn-mục-tiêu)
+            foreach (var v in playerViews)
+                if (v?.Root != null) RegisterUnitClick(v);
+            foreach (var v in enemyViews)
+                if (v?.Root != null) RegisterUnitClick(v);
+        }
+
+        void RegisterUnitClick(UnitView view)
+        {
+            view.Root.RegisterCallback<ClickEvent>(evt => OnUnitClick(view, evt));
         }
 
         UnitView BuildUnitView(UnitState u)
@@ -257,6 +279,7 @@ namespace CardGame.UI
         {
             if (hand == null || engine == null) return;
 
+            ClearSelection(); // tay bài đổi → bỏ chọn (thẻ cũ không còn trên tay)
             hand.Clear();
             bool animate = animateNextHand;
 
@@ -316,6 +339,7 @@ namespace CardGame.UI
             draggedCard = card;
             dragPointerId = evt.pointerId;
             dragStartPointer = evt.position;
+            dragMoved = false;
 
             cardEl.AddToClassList("card--dragging");
             PointerCaptureHelper.CapturePointer(cardEl, evt.pointerId);
@@ -327,6 +351,15 @@ namespace CardGame.UI
             if (!dragging || dragged == null || evt.pointerId != dragPointerId) return;
 
             var delta = (Vector2)evt.position - dragStartPointer;
+
+            // còn trong vùng nhỏ quanh thẻ → vẫn là "bấm chọn", đừng dịch chuyển
+            if (!dragMoved)
+            {
+                if (delta.magnitude < 6f) return;
+                dragMoved = true;
+                ClearSelection(); // bắt đầu kéo thật → bỏ chế độ chọn
+            }
+
             dragged.style.translate = new Translate(
                 new Length(delta.x, LengthUnit.Pixel),
                 new Length(delta.y, LengthUnit.Pixel));
@@ -341,27 +374,102 @@ namespace CardGame.UI
 
             var cardEl = dragged;
             var card = draggedCard;
-            var dropView = UpdateHover((Vector2)evt.position);
+            bool wasClick = !dragMoved &&
+                            ((Vector2)evt.position - dragStartPointer).magnitude < 6f;
+            var dropView = wasClick ? null : UpdateHover((Vector2)evt.position);
 
             ClearDragState(cardEl);
             PointerCaptureHelper.ReleasePointer(cardEl, evt.pointerId);
             evt.StopPropagation();
 
-            if (dropView == null) return; // thả chỗ trống → thẻ tự trượt về (transition)
-
-            if (!engine.CanPlay(card))
+            if (wasClick)
             {
-                FlashEnergy();
+                ToggleSelection(card, cardEl); // cơ chế 2: bấm để chọn / bỏ chọn
                 return;
             }
 
-            if (!engine.IsValidTarget(card, dropView.Model)) return;
+            if (dropView == null) return; // thả chỗ trống → thẻ tự trượt về (transition)
 
-            if (engine.TryBeginPlay(card, dropView.Model, out var play))
+            PlayCard(card, dropView);
+        }
+
+        // ------------------------------------------------------------------
+        //  Cơ chế 2: chọn thẻ → chọn mục tiêu
+        // ------------------------------------------------------------------
+
+        void ToggleSelection(CardDef card, VisualElement cardEl)
+        {
+            if (selectedCard == card)
             {
-                RefreshInteractivity();
-                AnimateCardPlay(play);
+                ClearSelection();
+                return;
             }
+
+            ClearSelection();
+            selectedCard = card;
+            selectedEl = cardEl;
+            cardEl?.AddToClassList("card--selected");
+            HighlightValidTargets();
+        }
+
+        void ClearSelection()
+        {
+            if (selectedEl != null) selectedEl.RemoveFromClassList("card--selected");
+            selectedEl = null;
+            selectedCard = null;
+
+            foreach (var v in playerViews)
+                v?.Root?.RemoveFromClassList("unit--target");
+            foreach (var v in enemyViews)
+                v?.Root?.RemoveFromClassList("unit--target");
+        }
+
+        /// <summary>Tô sáng các đơn vị hợp lệ làm mục tiêu của thẻ đang chọn.</summary>
+        void HighlightValidTargets()
+        {
+            if (engine == null || selectedCard == null) return;
+            foreach (var v in playerViews)
+                if (v?.Root != null)
+                    v.Root.EnableInClassList("unit--target", engine.IsValidTarget(selectedCard, v.Model));
+            foreach (var v in enemyViews)
+                if (v?.Root != null)
+                    v.Root.EnableInClassList("unit--target", engine.IsValidTarget(selectedCard, v.Model));
+        }
+
+        /// <summary>Bấm lên đơn vị khi đang có thẻ được chọn → chơi thẻ đó.</summary>
+        void OnUnitClick(UnitView view, ClickEvent evt)
+        {
+            if (selectedCard == null || engine == null) return;
+
+            evt.StopPropagation(); // giữ selection khi bấm nhầm mục tiêu không hợp lệ
+
+            if (engine.Phase != Phase.PlayerTurn)
+            {
+                ClearSelection();
+                return;
+            }
+
+            if (PlayCard(selectedCard, view)) ClearSelection();
+        }
+
+        /// <summary>Thử chơi một lá lên một đơn vị. Trả về false nếu không hợp lệ.</summary>
+        bool PlayCard(CardDef card, UnitView view)
+        {
+            if (engine == null || card == null || view == null) return false;
+            if (engine.Phase != Phase.PlayerTurn) return false;
+            if (!engine.IsValidTarget(card, view.Model)) return false;
+
+            if (!engine.CanPlay(card))
+            {
+                FlashEnergy(); // không đủ năng lượng
+                return false;
+            }
+
+            if (!engine.TryBeginPlay(card, view.Model, out var play)) return false;
+
+            RefreshInteractivity();
+            AnimateCardPlay(play);
+            return true;
         }
 
         /// <summary>Tìm đơn vị đang trỏ chuột theo TargetKind của thẻ; bật/tắt vùng thả.</summary>

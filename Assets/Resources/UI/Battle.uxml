@@ -16,7 +16,7 @@
             <ui:VisualElement name="team-player" class="zone zone--player">
                 <ui:Label text="ĐỘI NGƯỜI CHƠI" class="zone-title text-semibold" />
                 <ui:VisualElement name="team-player-row" class="unit-row" />
-                <ui:Label text="Thả TẤN CÔNG lên một quái · Thả THỦ / THU HÚT lên đồng đội" class="zone-hint" />
+                <ui:Label text="Thả hoặc BẤM chọn thẻ, rồi chọn quái địch để tấn công · Thủ/Thu Hút chọn tướng phe mình" class="zone-hint" />
             </ui:VisualElement>
 
             <ui:VisualElement class="mid-col">
