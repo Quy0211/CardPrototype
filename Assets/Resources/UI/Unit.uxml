@@ -3,6 +3,7 @@
     <ui:VisualElement name="unit" class="unit">
         <ui:VisualElement name="unit-art" class="unit-art">
             <ui:Label name="unit-glyph" text="K" class="unit-glyph text-semibold" />
+            <ui:VisualElement name="unit-sprite" class="unit-sprite" />
         </ui:VisualElement>
         <ui:Label name="unit-name" text="Kiếm Sĩ" class="unit-name text-semibold" />
         <ui:VisualElement class="hpbar">

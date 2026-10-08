@@ -47,6 +47,24 @@
 .role--guard     .unit-glyph { color: #fed7aa; }
 .role--sniper    .unit-glyph { color: #e9d5ff; }
 
+/* sprite frame (ẩn glyph khi có sprite) */
+.unit-sprite {
+    position: absolute;
+    transition-property: translate;
+    transition-duration: 0.26s;
+    transition-timing-function: ease-out;
+}
+
+.unit .unit-glyph {
+    opacity: 1;
+}
+.unit.unit--sprite .unit-glyph {
+    opacity: 0;
+}
+.unit.unit--sprite .unit-art {
+    background-color: rgba(0,0,0,0);
+}
+
 /* --- phe --- */
 .unit--player .hpbar-fill { background-color: #22c55e; }
 .unit--enemy  .hpbar-fill { background-color: #ef4444; }

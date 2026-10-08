@@ -46,6 +46,7 @@ namespace CardGame.UI
             public VisualElement Container; // TemplateContainer trong hàng
             public VisualElement Root;      // phần tử name="unit"
             public VisualElement Art;       // vùng hình (name="unit-art")
+            public UnitVisual Visual;       // sprite animation (nếu có)
         }
 
         readonly List<UnitView> playerViews = new List<UnitView>();
@@ -127,6 +128,21 @@ namespace CardGame.UI
             animateNextHand = false;
             RefreshUnits();
             RefreshInteractivity();
+            StartIdleAll();
+        }
+
+        void StartIdleAll()
+        {
+            for (int i = 0; i < playerViews.Count; i++)
+            {
+                var v = playerViews[i];
+                v?.Visual?.PlayIdle(app);
+            }
+            for (int i = 0; i < enemyViews.Count; i++)
+            {
+                var v = enemyViews[i];
+                v?.Visual?.PlayIdle(app);
+            }
         }
 
         void OnRetry()
@@ -139,6 +155,7 @@ namespace CardGame.UI
             animateNextHand = false;
             RefreshUnits();
             RefreshInteractivity();
+            StartIdleAll();
         }
 
         void OnBackToMenu()
@@ -240,12 +257,65 @@ namespace CardGame.UI
             Bind(el.Q<Label>("unit-intent"), u, "IntentText");
             BindWidth(el.Q("unit-hp-fill"), u, "HpWidth");
 
+            var el2 = container.Q("unit");
+            if (el2 == null)
+            {
+                Debug.LogError("[CardGame] Unit.uxml thiếu phần tử name='unit'");
+                return null;
+            }
+            var e2 = el2;
+
+            el.AddToClassList("role--" + u.Role.ToString().ToLowerInvariant());
+            el.AddToClassList(u.Team == Team.Player ? "unit--player" : "unit--enemy");
+
+            var g = el.Q<Label>("unit-glyph");
+            var nm = el.Q<Label>("unit-name");
+            if (g != null) g.text = u.Glyph;
+            if (nm != null) nm.text = u.Name;
+
+            Bind(el.Q<Label>("unit-hp"), u, "HpText");
+            Bind(el.Q<Label>("unit-block"), u, "BlockText");
+            Bind(el.Q<Label>("unit-taunt"), u, "TauntText");
+            Bind(el.Q<Label>("unit-intent"), u, "IntentText");
+            BindWidth(el.Q("unit-hp-fill"), u, "HpWidth");
+
+            var spriteEl = el.Q("unit-sprite");
+            UnitVisual visual = null;
+            if (u.Role == Role.Swordsman && spriteEl != null)
+            {
+                var subs = Resources.LoadAll<Sprite>("Sprites/swordsman_sheet");
+                if (subs != null && subs.Length > 0)
+                {
+                    Sprite f1=null,f2=null,f3=null,f4=null,f5=null;
+                    for (int i = 0; i < subs.Length; i++)
+                    {
+                        var sn = subs[i].name;
+                        if (sn.EndsWith("f1")) f1 = subs[i];
+                        if (sn.EndsWith("f2")) f2 = subs[i];
+                        if (sn.EndsWith("f3")) f3 = subs[i];
+                        if (sn.EndsWith("f4")) f4 = subs[i];
+                        if (sn.EndsWith("f5")) f5 = subs[i];
+                    }
+                    if (f1 == null && subs.Length>=1) f1=subs[0];
+                    if (f2 == null && subs.Length>=2) f2=subs[1];
+                    if (f3 == null && subs.Length>=3) f3=subs[2];
+                    if (f4 == null && subs.Length>=4) f4=subs[3];
+                    if (f5 == null && subs.Length>=5) f5=subs[4];
+                    if (f1 != null)
+                    {
+                        visual = new UnitVisual(spriteEl, new[]{f1,f2}, new[]{f3,f4,f5});
+                        e2.AddToClassList("unit--sprite");
+                    }
+                }
+            }
+
             return new UnitView
             {
                 Model = u,
                 Container = container,
-                Root = el,
-                Art = el.Q("unit-art")
+                Root = e2,
+                Art = e2.Q("unit-art"),
+                Visual = visual
             };
         }
 
@@ -259,6 +329,12 @@ namespace CardGame.UI
         {
             if (v == null || v.Root == null) return;
             v.Root.EnableInClassList("unit--dead", !v.Model.IsAlive);
+            if (v.Visual != null)
+            {
+                var host = v.Container?.panel?.visualTree?.userData as MonoBehaviour;
+                // fallback: try to find App MonoBehaviour? easier: just call from coroutine host? alternatively use root.schedule? but Coroutine needs MB
+                // BattleScreen có thể lưu App reference? App là MonoBehaviour
+            }
         }
 
         UnitView ViewOf(UnitState unit)
@@ -588,6 +664,7 @@ namespace CardGame.UI
                         {
                             ApplyPlayerPlay(play, targetView);
                             SlashAt(targetView);
+                            actorView.Visual?.PlaySlash(app);
                         }, 700);
                 }
                 else
