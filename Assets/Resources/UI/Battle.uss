@@ -56,6 +56,8 @@
 /* --- sân đấu: 2 đội + cột nhật ký --- */
 .battlefield {
     flex-grow: 1;
+    position: relative;
+    z-index: 1;
     flex-direction: row;
     padding-top: 18px;
     padding-bottom: 18px;
@@ -135,6 +137,8 @@
 /* --- tay bài --- */
 .hand-area {
     height: 252px;
+    position: relative;
+    z-index: 0;
     background-color: #0f131b;
     border-top-width: 1px;
     border-top-color: #232a38;

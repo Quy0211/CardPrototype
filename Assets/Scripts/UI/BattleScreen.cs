@@ -1233,9 +1233,8 @@ namespace CardGame.UI
         {
             if (el == null || el.parent == null) return;
             var p = el.parent;
-            while (p != battlefield && p.parent != null) p = p.parent;
-            p?.BringToFront();
-            el.BringToFront();
+            while (p != battlefield && p != null) p = p.parent;
+            battlefield?.BringToFront();
             el.BringToFront();
         }
 
