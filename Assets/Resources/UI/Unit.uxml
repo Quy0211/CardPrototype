@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="Unit.uss" />
+    <ui:VisualElement name="unit" class="unit">
+        <ui:VisualElement name="unit-art" class="unit-art">
+            <ui:Label name="unit-glyph" text="K" class="unit-glyph text-semibold" />
+        </ui:VisualElement>
+        <ui:Label name="unit-name" text="Kiếm Sĩ" class="unit-name text-semibold" />
+        <ui:VisualElement class="hpbar">
+            <ui:VisualElement name="unit-hp-fill" class="hpbar-fill" />
+        </ui:VisualElement>
+        <ui:Label name="unit-hp" text="0/0" class="hp-text" />
+        <ui:Label name="unit-block" text="" class="block-text" />
+        <ui:Label name="unit-taunt" text="" class="taunt-text text-semibold" />
+        <ui:Label name="unit-intent" text="" class="intent-text text-semibold" />
+    </ui:VisualElement>
+</ui:UXML>

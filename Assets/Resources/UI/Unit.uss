@@ -1,0 +1,137 @@
+/* styles của một đơn vị (tướng / quái) — dùng chung bởi Unit.uxml */
+
+.unit {
+    width: 196px;
+    margin-right: 14px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    background-color: #141a24;
+    border-width: 2px;
+    border-color: #2a3342;
+    border-radius: 16px;
+    translate: 0px 0px;
+    transition-property: translate, scale, background-color, border-color, opacity;
+    transition-duration: 0.26s;
+    transition-timing-function: ease-out;
+}
+
+/* --- vùng hình theo vai trò --- */
+.unit-art {
+    height: 84px;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: center;
+    transition-property: background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+}
+
+.unit-glyph {
+    font-size: 44px;
+    -unity-text-align: middle-center;
+}
+
+.role--swordsman .unit-art { background-color: #1d4ed8; }
+.role--archer    .unit-art { background-color: #15803d; }
+.role--tank      .unit-art { background-color: #4b5563; }
+.role--boss      .unit-art { background-color: #7f1d1d; }
+.role--guard     .unit-art { background-color: #78350f; }
+.role--sniper    .unit-art { background-color: #4c1d95; }
+
+.role--swordsman .unit-glyph { color: #bfdbfe; }
+.role--archer    .unit-glyph { color: #bbf7d0; }
+.role--tank      .unit-glyph { color: #e5e7eb; }
+.role--boss      .unit-glyph { color: #fecaca; }
+.role--guard     .unit-glyph { color: #fed7aa; }
+.role--sniper    .unit-glyph { color: #e9d5ff; }
+
+/* --- phe --- */
+.unit--player .hpbar-fill { background-color: #22c55e; }
+.unit--enemy  .hpbar-fill { background-color: #ef4444; }
+
+.unit-name {
+    font-size: 17px;
+    color: #f1f5f9;
+    margin-top: 8px;
+    -unity-text-align: middle-center;
+}
+
+.unit .hpbar {
+    height: 14px;
+    margin-top: 8px;
+    background-color: #3b1219;
+    border-radius: 7px;
+}
+
+.unit .hpbar-fill {
+    border-radius: 7px;
+}
+
+.unit .hp-text {
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.unit .block-text {
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+.taunt-text {
+    font-size: 13px;
+    color: #fcd34d;
+    margin-top: 4px;
+    -unity-text-align: middle-center;
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+}
+
+.intent-text {
+    font-size: 14px;
+    color: #fca5a5;
+    margin-top: 6px;
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+/* --- trạng thái --- */
+
+/* vùng thả hợp lệ khi kéo thẻ */
+.unit--target {
+    border-color: #4ade80;
+    background-color: #14251c;
+}
+
+/* chớp đỏ khi ăn đòn */
+.unit--hit {
+    background-color: #4c1d24;
+    border-color: #ef4444;
+}
+
+/* chớp xanh khi nhận khiên / buff */
+.unit--buff {
+    background-color: #14324a;
+    border-color: #7dd3fc;
+}
+
+/* tướng đã gục */
+.unit--dead {
+    opacity: 0.3;
+    scale: 0.96;
+}
+
+/* địch dùng skill đánh lan: boss giãn ra trước khi nổ */
+.unit--roar {
+    scale: 1.07;
+    border-color: #f97316;
+    background-color: #3a1420;
+}
+
+/* đang phòng thủ */
+.unit--guard {
+    background-color: #14253a;
+    border-color: #7dd3fc;
+}

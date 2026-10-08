@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="Card.uss" />
+    <ui:VisualElement name="card" class="card">
+        <ui:VisualElement name="card-cost" class="card-cost">
+            <ui:Label name="card-cost-label" text="1" class="card-cost-label text-semibold" />
+        </ui:VisualElement>
+        <ui:Label name="card-title" text="Đấm" class="card-title text-semibold" />
+        <ui:VisualElement name="card-art" class="card-art">
+            <ui:Label name="card-art-glyph" text="Đ" class="card-art-glyph" />
+        </ui:VisualElement>
+        <ui:Label name="card-desc" text="Gây 6 sát thương" class="card-desc" />
+        <ui:Label name="card-type" text="Tấn công" class="card-type" />
+    </ui:VisualElement>
+</ui:UXML>

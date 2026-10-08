@@ -1,0 +1,107 @@
+/* styles của thẻ bài (mỗi thẻ là một bản sao Card.uxml) */
+
+.card {
+    width: 158px;
+    height: 214px;
+    margin-right: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #1c2330;
+    border-width: 2px;
+    border-color: #3b4659;
+    border-radius: 14px;
+    translate: 0px 0px;
+    transition-property: translate, scale, background-color, border-color, opacity;
+    transition-duration: 0.22s;
+    transition-timing-function: ease-out;
+}
+
+/* hover: nhấc thẻ lên (transition đặt ở rule gốc để còn hoạt động khi bỏ hover) */
+.card:hover {
+    scale: 1.06;
+    translate: 0px -14px;
+    border-color: #ffd166;
+    background-color: #232c3c;
+}
+
+/* đang kéo: tắt transition để thẻ bám sát con trỏ */
+.card.card--dragging {
+    transition-property: none;
+    scale: 1.1;
+    border-color: #ffd166;
+    background-color: #26303f;
+}
+
+/* không đủ năng lượng */
+.card.card--expensive {
+    opacity: 0.55;
+}
+
+/* hiệu ứng vào tay (thêm class ở frame đầu, gỡ ở frame sau → transition chạy) */
+.card.card--enter {
+    transition-duration: 0s;
+    opacity: 0;
+    translate: 0px 70px;
+}
+
+/* --- bên trong thẻ --- */
+.card-cost {
+    width: 34px;
+    height: 34px;
+    border-radius: 17px;
+    background-color: #1d4ed8;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.card-cost-label {
+    font-size: 17px;
+    color: #ffffff;
+    -unity-text-align: middle-center;
+}
+
+.card-title {
+    font-size: 17px;
+    color: #f8fafc;
+    -unity-text-align: middle-center;
+}
+
+.card-art {
+    height: 62px;
+    margin-top: 6px;
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-art--attack {
+    background-color: #7f1d1d;
+}
+
+.card-art--skill {
+    background-color: #1e3a8a;
+}
+
+.card-art-glyph {
+    font-size: 40px;
+    color: #fde68a;
+    -unity-text-align: middle-center;
+}
+
+.card-desc {
+    font-size: 12px;
+    color: #cbd5e1;
+    margin-top: 8px;
+    flex-grow: 1;
+    white-space: normal;
+    -unity-text-align: middle-center;
+}
+
+.card-type {
+    font-size: 11px;
+    color: #7c8ba1;
+    -unity-text-align: middle-center;
+}

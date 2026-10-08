@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="Menu.uss" />
+    <ui:VisualElement name="menu-root" class="menu-root">
+        <ui:VisualElement class="menu-title-wrap">
+            <ui:Label text="THẺ BÀI QUYỀN NĂNG" class="menu-title text-semibold" />
+        </ui:VisualElement>
+        <ui:Label text="Prototype PVE · UI Toolkit · UXML + USS + C#" class="menu-subtitle" />
+        <ui:VisualElement class="menu-features">
+            <ui:Label text="• Kéo thả thẻ bài (Drag and Drop)" class="menu-feature" />
+            <ui:Label text="• Chuyển động USS (Transitions)" class="menu-feature" />
+            <ui:Label text="• Data Binding với Unity.Properties" class="menu-feature" />
+        </ui:VisualElement>
+        <ui:Button name="btn-start" text="BẮT ĐẦU CHIẾN ĐẤU" class="btn btn--primary text-semibold" />
+        <ui:Button name="btn-quit" text="Thoát game" class="btn btn--ghost text-semibold" />
+        <ui:Label text="Chạy trong Game view · Scene SampleScene" class="menu-footer" />
+    </ui:VisualElement>
+</ui:UXML>

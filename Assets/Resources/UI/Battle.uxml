@@ -1,0 +1,47 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="Battle.uss" />
+    <ui:VisualElement name="battle-root" class="battle-root">
+
+        <ui:VisualElement class="top-bar">
+            <ui:Label name="lbl-turn" text="Lượt 1" class="top-stat text-semibold" />
+            <ui:Label name="lbl-draw" text="Bài rút: 5" class="top-stat" />
+            <ui:Label name="lbl-discard" text="Bỏ: 0" class="top-stat" />
+            <ui:Label name="lbl-energy" text="Năng lượng: 3/3" class="top-stat energy-text" />
+            <ui:VisualElement class="top-spacer" />
+            <ui:Button name="btn-end-turn" text="KẾT THÚC LƯỢT" class="btn btn--end text-semibold" />
+        </ui:VisualElement>
+
+        <ui:VisualElement class="battlefield">
+
+            <ui:VisualElement name="team-player" class="zone zone--player">
+                <ui:Label text="ĐỘI NGƯỜI CHƠI" class="zone-title text-semibold" />
+                <ui:VisualElement name="team-player-row" class="unit-row" />
+                <ui:Label text="Thả TẤN CÔNG lên một quái · Thả THỦ / THU HÚT lên đồng đội" class="zone-hint" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="mid-col">
+                <ui:Label text="NHẬT KÝ" class="log-title text-semibold" />
+                <ui:VisualElement name="battle-log" class="battle-log" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="team-enemy" class="zone zone--enemy">
+                <ui:Label text="THẠCH QUỶ &amp; THUỘC HẠ" class="zone-title text-semibold" />
+                <ui:VisualElement name="team-enemy-row" class="unit-row" />
+                <ui:Label text=" Ý định của quái hiển thị trên từng đơn vị " class="zone-hint" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+        <ui:VisualElement class="hand-area">
+            <ui:VisualElement name="hand" class="hand" />
+        </ui:VisualElement>
+
+        <ui:VisualElement name="result-overlay" class="result-overlay result--hidden">
+            <ui:Label name="result-title" text="" class="result-title text-semibold" />
+            <ui:Label name="result-sub" text="" class="result-sub" />
+            <ui:Button name="btn-retry" text="CHƠI LẠI" class="btn btn--primary text-semibold" />
+            <ui:Button name="btn-menu" text="VỀ MENU" class="btn btn--ghost text-semibold" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

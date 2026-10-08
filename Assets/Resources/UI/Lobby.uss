@@ -1,0 +1,146 @@
+/* styles của màn hình Lobby */
+
+.lobby-root {
+    flex-grow: 1;
+    background-color: #0b0e14;
+    padding-top: 34px;
+    padding-bottom: 24px;
+    padding-left: 40px;
+    padding-right: 40px;
+    align-items: center;
+}
+
+.lobby-kicker {
+    font-size: 15px;
+    color: #d97706;
+    letter-spacing: 6px;
+}
+
+.lobby-title {
+    font-size: 46px;
+    color: #f1f5f9;
+    margin-top: 6px;
+}
+
+.lobby-subtitle {
+    font-size: 18px;
+    color: #7d8ba1;
+    margin-top: 6px;
+    margin-bottom: 18px;
+    -unity-text-align: middle-center;
+}
+
+.col-title {
+    font-size: 14px;
+    color: #4ade80;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+    align-self: flex-start;
+}
+
+.col-title--enemy {
+    color: #f87171;
+    margin-top: 22px;
+}
+
+.lobby-row {
+    flex-direction: row;
+    justify-content: center;
+    align-self: stretch;
+}
+
+/* --- một thẻ tướng --- */
+.lobby-card {
+    width: 300px;
+    margin-right: 22px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 18px;
+    padding-right: 18px;
+    background-color: #141a24;
+    border-width: 1px;
+    border-color: #2a3342;
+    border-radius: 16px;
+    transition-property: translate, border-color, background-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+}
+
+.lobby-card:hover {
+    translate: 0px -6px;
+    border-color: #4ade80;
+    background-color: #16202c;
+}
+
+.lobby-card--enemy:hover {
+    border-color: #f87171;
+    background-color: #20161c;
+}
+
+.lobby-art {
+    height: 96px;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: center;
+}
+
+.lobby-glyph {
+    font-size: 52px;
+}
+
+.lobby-art--swordsman { background-color: #1d4ed8; }
+.lobby-art--archer    { background-color: #15803d; }
+.lobby-art--tank      { background-color: #4b5563; }
+.lobby-art--boss      { background-color: #7f1d1d; }
+.lobby-art--guard     { background-color: #78350f; }
+.lobby-art--sniper    { background-color: #4c1d95; }
+
+.lobby-art--swordsman .lobby-glyph { color: #bfdbfe; }
+.lobby-art--archer    .lobby-glyph { color: #bbf7d0; }
+.lobby-art--tank      .lobby-glyph { color: #e5e7eb; }
+.lobby-art--boss      .lobby-glyph { color: #fecaca; }
+.lobby-art--guard     .lobby-glyph { color: #fed7aa; }
+.lobby-art--sniper    .lobby-glyph { color: #e9d5ff; }
+
+.lobby-name {
+    font-size: 24px;
+    color: #f1f5f9;
+    margin-top: 12px;
+}
+
+.lobby-tag {
+    font-size: 13px;
+    color: #4ade80;
+    letter-spacing: 2px;
+    margin-top: 4px;
+}
+
+.lobby-card--enemy .lobby-tag {
+    color: #f87171;
+}
+
+.lobby-desc {
+    font-size: 15px;
+    color: #8fa0b8;
+    margin-top: 8px;
+    white-space: normal;
+}
+
+.lobby-stat {
+    font-size: 15px;
+    color: #fde68a;
+    margin-top: 10px;
+    -unity-text-align: middle-right;
+}
+
+.lobby-actions {
+    flex-direction: row;
+    margin-top: 28px;
+}
+
+.lobby-actions .btn {
+    width: 260px;
+    height: 56px;
+    margin-right: 16px;
+    font-size: 20px;
+}

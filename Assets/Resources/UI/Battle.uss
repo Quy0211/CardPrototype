@@ -1,0 +1,269 @@
+/* styles riêng của màn hình chiến đấu theo đội */
+
+.battle-root {
+    flex-grow: 1;
+    background-color: #0b0e14;
+}
+
+/* --- thanh trên cùng --- */
+.top-bar {
+    height: 64px;
+    padding-left: 20px;
+    padding-right: 20px;
+    flex-direction: row;
+    align-items: center;
+    background-color: #12161f;
+    border-bottom-width: 1px;
+    border-bottom-color: #232a38;
+}
+
+.top-stat {
+    font-size: 17px;
+    color: #b9c4d4;
+    margin-right: 26px;
+    -unity-text-align: middle-left;
+}
+
+.top-spacer {
+    flex-grow: 1;
+}
+
+.energy-text {
+    color: #fde68a;
+    transition-property: color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+}
+
+/* nhấp nháy khi thả thẻ nhưng không đủ năng lượng */
+.energy--flash {
+    color: #ff5468;
+}
+
+.btn.btn--end {
+    width: 240px;
+    height: 46px;
+    margin-top: 0px;
+    font-size: 17px;
+    background-color: #b45309;
+    color: #fff7ed;
+}
+
+.btn.btn--end:hover {
+    background-color: #d97706;
+}
+
+/* --- sân đấu: 2 đội + cột nhật ký --- */
+.battlefield {
+    flex-grow: 1;
+    flex-direction: row;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+/* nền trong suốt để tướng lao qua cột nhật ký không bị che */
+.zone {
+    width: 660px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-width: 1px;
+    border-color: #2a3342;
+    border-radius: 16px;
+    transition-property: background-color, border-color;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+}
+
+/* vùng thả hợp lệ (đổi khi kéo thẻ tới) */
+.zone--target {
+    border-color: #4ade80;
+    background-color: rgba(20, 37, 28, 0.6);
+}
+
+.zone-title {
+    font-size: 15px;
+    color: #64748b;
+    letter-spacing: 3px;
+    -unity-text-align: middle-center;
+    margin-bottom: 12px;
+}
+
+.zone-hint {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 12px;
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+.unit-row {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* --- nhật ký --- */
+.mid-col {
+    flex-grow: 1;
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+.log-title {
+    font-size: 14px;
+    color: #64748b;
+    letter-spacing: 2px;
+}
+
+.battle-log {
+    margin-top: 10px;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.log-line {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 5px;
+    white-space: normal;
+}
+
+/* --- tay bài --- */
+.hand-area {
+    height: 252px;
+    background-color: #0f131b;
+    border-top-width: 1px;
+    border-top-color: #232a38;
+}
+
+.hand {
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 14px;
+}
+
+/* --- hiệu ứng bay (đạn / đòn chém / số sát thương) --- */
+.dash-ghost {
+    position: absolute;
+    width: 96px;
+    height: 96px;
+    border-radius: 14px;
+    border-width: 2px;
+    border-color: #60a5fa;
+    background-color: #1d4ed8;
+    justify-content: center;
+    align-items: center;
+    transition-property: translate;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.dash-ghost--foe {
+    border-color: #fca5a5;
+    background-color: #7f1d1d;
+}
+
+.dash-ghost-label {
+    font-size: 44px;
+    color: #bfdbfe;
+    -unity-text-align: middle-center;
+}
+
+.dash-ghost--foe .dash-ghost-label {
+    color: #fecaca;
+}
+
+.projectile {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    transition-property: translate;
+    transition-duration: 0.32s;
+    transition-timing-function: linear;
+}
+
+.projectile--ally {
+    background-color: #a3e635;
+}
+
+.projectile--foe {
+    background-color: #f97316;
+}
+
+.fx-slash {
+    position: absolute;
+    width: 84px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    rotate: -24deg;
+    opacity: 0;
+    scale: 0.5;
+    transition-property: opacity, scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.fx-slash--show {
+    opacity: 1;
+    scale: 1.2;
+}
+
+.fx-float {
+    position: absolute;
+    font-size: 24px;
+    color: #ff5468;
+    transition-property: translate, opacity;
+    transition-duration: 0.9s;
+    transition-timing-function: ease-out;
+}
+
+.fx-float--up {
+    translate: 0px -56px;
+    opacity: 0;
+}
+
+.fx-float--heal {
+    color: #7dd3fc;
+}
+
+/* --- lớp kết quả --- */
+.result-overlay {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: rgba(6, 8, 12, 0.86);
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.35s;
+    transition-timing-function: ease;
+}
+
+.result--hidden {
+    opacity: 0;
+}
+
+.result-title {
+    font-size: 54px;
+    color: #ffd166;
+    margin-bottom: 10px;
+    -unity-text-align: middle-center;
+}
+
+.result-sub {
+    font-size: 20px;
+    color: #cbd5e1;
+    margin-bottom: 26px;
+    -unity-text-align: middle-center;
+}

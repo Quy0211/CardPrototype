@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="App.uss" />
+    <ui:VisualElement name="app-root" class="app-root">
+        <ui:VisualElement name="screen-menu" class="screen" />
+        <ui:VisualElement name="screen-lobby" class="screen screen--hidden" />
+        <ui:VisualElement name="screen-battle" class="screen screen--hidden" />
+    </ui:VisualElement>
+</ui:UXML>

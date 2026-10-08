@@ -1,0 +1,85 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="Lobby.uss" />
+    <ui:VisualElement name="lobby-root" class="lobby-root">
+
+        <ui:Label text="LOBBY" class="lobby-kicker text-semibold" />
+        <ui:Label text="ĐỘI HÌNH CỦA BẠN" class="lobby-title text-semibold" />
+        <ui:Label text="3 tướng cố định · Đối mặt Thạch Quỷ và 2 thuộc hạ" class="lobby-subtitle" />
+
+        <ui:Label text="PHE NGƯỜI CHƠI" class="col-title text-semibold" />
+        <ui:VisualElement class="lobby-row">
+
+            <ui:VisualElement class="lobby-card">
+                <ui:VisualElement class="lobby-art lobby-art--swordsman">
+                    <ui:Label text="K" class="lobby-glyph text-semibold" />
+                </ui:VisualElement>
+                <ui:Label text="KIẾM SĨ" class="lobby-name text-semibold" />
+                <ui:Label text="Melee" class="lobby-tag" />
+                <ui:Label text="Lao tới mục tiêu và chém khi tấn công." class="lobby-desc" />
+                <ui:Label text="HP 52" class="lobby-stat" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="lobby-card">
+                <ui:VisualElement class="lobby-art lobby-art--archer">
+                    <ui:Label text="C" class="lobby-glyph text-semibold" />
+                </ui:VisualElement>
+                <ui:Label text="CUNG THỦ" class="lobby-name text-semibold" />
+                <ui:Label text="Xa" class="lobby-tag" />
+                <ui:Label text="Bắn tên từ khoảng cách an toàn." class="lobby-desc" />
+                <ui:Label text="HP 40" class="lobby-stat" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="lobby-card">
+                <ui:VisualElement class="lobby-art lobby-art--tank">
+                    <ui:Label text="T" class="lobby-glyph text-semibold" />
+                </ui:VisualElement>
+                <ui:Label text="THIẾT VỆ" class="lobby-name text-semibold" />
+                <ui:Label text="Tank · Taunt" class="lobby-tag" />
+                <ui:Label text="Thu hút đòn đánh: ép quái dồn đánh mình." class="lobby-desc" />
+                <ui:Label text="HP 74" class="lobby-stat" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+        <ui:Label text="ĐỐI THỦ" class="col-title col-title--enemy text-semibold" />
+        <ui:VisualElement class="lobby-row">
+
+            <ui:VisualElement class="lobby-card lobby-card--enemy">
+                <ui:VisualElement class="lobby-art lobby-art--boss">
+                    <ui:Label text="Q" class="lobby-glyph text-semibold" />
+                </ui:VisualElement>
+                <ui:Label text="THẠCH QUỶ" class="lobby-name text-semibold" />
+                <ui:Label text="Boss" class="lobby-tag" />
+                <ui:Label text="Có skill ĐÁNH LAN trúng cả đội." class="lobby-desc" />
+                <ui:Label text="HP 64" class="lobby-stat" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="lobby-card lobby-card--enemy">
+                <ui:VisualElement class="lobby-art lobby-art--guard">
+                    <ui:Label text="V" class="lobby-glyph text-semibold" />
+                </ui:VisualElement>
+                <ui:Label text="ĐÁ VỆ" class="lobby-name text-semibold" />
+                <ui:Label text="Tank" class="lobby-tag" />
+                <ui:Label text="Chắn mũi, hay dựng khiên." class="lobby-desc" />
+                <ui:Label text="HP 32" class="lobby-stat" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="lobby-card lobby-card--enemy">
+                <ui:VisualElement class="lobby-art lobby-art--sniper">
+                    <ui:Label text="X" class="lobby-glyph text-semibold" />
+                </ui:VisualElement>
+                <ui:Label text="ĐÁ TIỄN" class="lobby-name text-semibold" />
+                <ui:Label text="Xa" class="lobby-tag" />
+                <ui:Label text="Bắn lén một tướng ngẫu nhiên." class="lobby-desc" />
+                <ui:Label text="HP 24" class="lobby-stat" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+        <ui:VisualElement class="lobby-actions">
+            <ui:Button name="btn-into-battle" text="VÀO TRẬN" class="btn btn--primary text-semibold" />
+            <ui:Button name="btn-lobby-back" text="Quay lại menu" class="btn btn--ghost text-semibold" />
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

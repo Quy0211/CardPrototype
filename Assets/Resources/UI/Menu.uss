@@ -1,0 +1,59 @@
+/* styles riêng của màn hình chính */
+
+.menu-root {
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: #0f131b;
+}
+
+.menu-title-wrap {
+    margin-bottom: 4px;
+    transition-property: translate, scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.menu-title-wrap:hover {
+    translate: 0px -6px;
+    scale: 1.03;
+}
+
+.menu-title {
+    font-size: 58px;
+    color: #ffd166;
+    -unity-text-align: middle-center;
+}
+
+.menu-subtitle {
+    font-size: 19px;
+    color: #9fb0c3;
+    margin-top: 6px;
+    margin-bottom: 30px;
+    -unity-text-align: middle-center;
+}
+
+.menu-features {
+    padding: 16px 30px;
+    margin-bottom: 34px;
+    background-color: #161c27;
+    border-width: 1px;
+    border-color: #2b3648;
+    border-radius: 14px;
+    align-items: center;
+}
+
+.menu-feature {
+    font-size: 17px;
+    color: #cfd8e3;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    -unity-text-align: middle-center;
+}
+
+.menu-footer {
+    margin-top: 36px;
+    font-size: 14px;
+    color: #6b7686;
+    -unity-text-align: middle-center;
+}

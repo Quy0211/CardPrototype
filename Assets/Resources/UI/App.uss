@@ -1,0 +1,79 @@
+/* styles dùng chung cho toàn app (kèm theo App.uxml nên áp cho mọi màn hình con) */
+
+.app-root {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    color: #eef1f5;
+    background-color: #0b0e14;
+}
+
+/* --- chuyển cảnh màn hình (fade) --- */
+.screen {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.4s;
+    transition-timing-function: ease;
+}
+
+.screen--hidden {
+    opacity: 0;
+}
+
+/* --- nút bấm dùng chung --- */
+.btn {
+    width: 400px;
+    height: 62px;
+    margin-top: 14px;
+    border-radius: 12px;
+    border-width: 0px;
+    font-size: 21px;
+    color: #f5f7fa;
+    -unity-text-align: middle-center;
+    -unity-font-style: normal;
+    transition-property: scale, background-color, translate;
+    transition-duration: 0.18s;
+    transition-timing-function: ease-out;
+}
+
+.btn:hover {
+    scale: 1.04;
+    translate: 0px -2px;
+}
+
+.btn:active {
+    scale: 0.97;
+}
+
+.btn:disabled {
+    opacity: 0.45;
+}
+
+.btn--primary {
+    background-color: #d97706;
+    color: #1a1206;
+}
+
+.btn--primary:hover {
+    background-color: #f59e0b;
+}
+
+.btn--ghost {
+    background-color: #232b38;
+}
+
+.btn--ghost:hover {
+    background-color: #2f3a4b;
+}
+
+/* chữ in đậm: font SemiBold được gán bằng C# (class text-semibold) */
+.text-semibold {
+    -unity-font-style: normal;
+}
