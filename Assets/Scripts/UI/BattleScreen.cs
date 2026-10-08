@@ -694,8 +694,16 @@ namespace CardGame.UI
                 else
                 {
                     // Cung thủ bắn từ xa
-                    ArrowShot(actorView, targetView.Root.worldBound.center, false,
-                        () => ApplyPlayerPlay(play, targetView));
+                    BringToFront(actorView.Root);
+                    actorView.Visual?.PlaySlash(app, () =>
+                    {
+                        ArrowShot(actorView, targetView.Root.worldBound.center, false,
+                            () =>
+                            {
+                                ApplyPlayerPlay(play, targetView);
+                                SendToBackIfNeeded(actorView.Root, actorView.Model.Team);
+                            });
+                    });
                 }
             }
             else if (play.IsTaunt)
