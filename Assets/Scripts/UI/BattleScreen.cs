@@ -932,6 +932,7 @@ namespace CardGame.UI
             actor.Root.style.translate = new Translate(
                 new Length(delta.x, LengthUnit.Pixel),
                 new Length(delta.y, LengthUnit.Pixel));
+            actor.Root.style.transitionDuration = new StyleList<TimeValue>(new TimeValue(0.3f));
 
             actor.Root.schedule.Execute(() => onHit?.Invoke()).StartingIn(hitMs);
         }
@@ -1087,11 +1088,13 @@ namespace CardGame.UI
             actor.Root.style.translate = new Translate(
                 new Length(delta.x, LengthUnit.Pixel),
                 new Length(delta.y, LengthUnit.Pixel));
+            actor.Root.style.transitionDuration = new StyleList<TimeValue>(new TimeValue(durationMs / 1000f));
 
             actor.Root.schedule.Execute(() =>
             {
                 actor.Visual?.PlayIdle(app);
                 actor.Root.style.translate = new StyleTranslate(StyleKeyword.Null);
+                actor.Root.style.transitionDuration = StyleKeyword.Null;
             }).StartingIn(durationMs);
         }
 
